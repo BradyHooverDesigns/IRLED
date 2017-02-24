@@ -1,0 +1,111 @@
+//this is a code for a infrared controlled neopixel strip
+//the infrared sensors used are HC-SR501 PIR motion sensor detectors
+//the led strip is a WS2812B neopixel strip
+
+#include <Adafruit_NeoPixel.h>  //begins a neopixel sketch
+
+const int farLeftIr = 13;   //sets pin 13 to the far left ir data pin
+const int leftIr = 12;      //sets pin 12 to the left ir data pin
+const int midIr = 11;       //sets pin 11 to the middle ir data pin
+const int rightIr = 10;     //sets pin 10 to the right ir data pin
+const int farRightIr = 9;   //sets pin 9 to the far right ir data pin
+
+int neoPin = 5; //sets the pin for the neopixel data connection
+
+// Parameter 1 = number of pixels in strip
+// Parameter 2 = pin number (most are valid)
+// Parameter 3 = pixel type flags, add together as needed:
+//   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
+//   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
+//   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
+//   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
+Adafruit_NeoPixel strip_a = Adafruit_NeoPixel(60, neoPin, NEO_GRB + NEO_KHZ800);
+
+void setup() {
+  // put your setup code here, to run once:
+  strip_a.begin();
+  strip_a.show(); //initialize all pixels in strip_a to off
+
+  pinMode(farLeftIr, INPUT);//sets pin 13 as an input pin to read motion
+  pinMode(leftIr, INPUT); //sets pin 12 as an input pin to read motion
+  pinMode(midIr, INPUT);  //sets pin 11 as an input pin to read motion
+  pinMode(rightIr, INPUT);  //sets pin 10 as an input pin to read motion
+  pinMode(farRightIr, INPUT); //sets pin 9 as an input pin to read motion
+\
+  strip_a.setBrightness(64);  //sets brightness of the strip
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+  //if the farthest left IR sensor is triggered turn on the first 12 pixel set
+  if(digitalRead(farLeftIr) == HIGH)  {
+    for(int a=0; a < 12; a++) {
+      strip_a.setPixelColor(a,255,0,0);
+    }
+    strip_a.show();
+    //delay(10);
+  } else  {
+    for(int a=0; a < 12; a++) {
+      strip_a.setPixelColor(a,0,0,0);
+    }
+    strip_a.show();
+  }
+
+  //if the inner left IR sensor is triggered turn on the second 12 pixel set
+  if(digitalRead(leftIr) == HIGH)  {
+    for(int a=12; a < 24; a++) {
+      strip_a.setPixelColor(a,255,0,0);
+    }
+    strip_a.show();
+    //delay(10);
+  } else  {
+    for(int a=12; a < 24; a++) {
+      strip_a.setPixelColor(a,0,0,0);
+    }
+    strip_a.show();
+  }
+
+  //if the middle IR sensor is triggered turn on the third 12 pixel set
+  if(digitalRead(midIr) == HIGH)  {
+    for(int a=24; a < 36; a++) {
+      strip_a.setPixelColor(a,255,0,0);
+    }
+    strip_a.show();
+    //delay(10);
+  } else  {
+    for(int a=24; a < 36; a++) {
+      strip_a.setPixelColor(a,0,0,0);
+    }
+    strip_a.show();
+  }
+
+  //if the inner right IR sensor is triggered turn on the fourth 12 pixel set
+    if(digitalRead(rightIr) == HIGH)  {
+    for(int a=36; a < 48; a++) {
+      strip_a.setPixelColor(a,255,0,0);
+    }
+    strip_a.show();
+    //delay(100);
+  } else  {
+    for(int b=36; b < 48; b++) {
+      strip_a.setPixelColor(b,0,0,0);
+    }
+    strip_a.show();
+  }
+
+  //if the farthest right IR sensor is triggered turn on the fifth 12 pixel set
+  if(digitalRead(farRightIr) == HIGH)  {
+    for(int a=48; a < 60; a++) {
+      strip_a.setPixelColor(a,255,0,0);
+    }
+    strip_a.show();
+    //delay(10);
+  } else  {
+    for(int a=48; a < 60; a++) {
+      strip_a.setPixelColor(a,0,0,0);
+    }
+    strip_a.show();
+  }
+
+}
